@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+
+        <title>My page title</title>
+        <link
+            href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sonsie+One"
+            rel="stylesheet" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+        <!-- Here is our main header that is used across all the pages of our website -->
+
+        <header>
+            <h1>Header</h1>
+        </header>
+
+        <nav>
+            <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Our team</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Contact</a></li>
+            </ul>
+
+            <!-- A Search form is another common non-linear way to navigate through a website. -->
+
+            <form>
+            <input type="search" name="q" placeholder="Search query" />
+            <input type="submit" value="Go!" />
+            </form>
+        </nav>
+
+        <main>
+
+            <TMPL_VAR NAME="content">
+
+        </main>
+
+        <footer>
+            <p>©Copyright 2050 by nobody. All rights reversed.</p>
+        </footer>
+    </body>
+</html>

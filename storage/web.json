@@ -1,0 +1,37 @@
+{
+    "GET/": {
+        "package": "Http::Controllers::HomeController",
+        "method": "index",
+        "middlewares": [
+            
+        ]
+    },
+    "GET/sign-up": {
+        "package": "Http::Controllers::HomeController",
+        "method": "register",
+        "middlewares": [
+
+        ]
+    },
+    "POST/sign-up": {
+        "package": "Http::Controllers::UserController",
+        "method": "register",
+        "middlewares": [
+
+        ]
+    },
+    "GET/sign-in": {
+        "package": "Http::Controllers::HomeController",
+        "method": "login",
+        "middlewares": [
+
+        ]
+    },
+    "POST/sign-in": {
+        "package": "Http::Controllers::UserController",
+        "method": "login",
+        "middlewares": [
+
+        ]
+    }
+}

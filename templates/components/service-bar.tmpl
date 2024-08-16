@@ -1,0 +1,12 @@
+
+<ul class="flex gap-2">
+
+    <TMPL_LOOP NAME="services">
+    
+        <li class="p-2">
+            <a class="transition duration-500 rounded border-r-4 px-2 pt-1 pb-2 hover:text-slate-500 hover:bg-slate-50 hover:cursor-pointer <TMPL_IF NAME=active> bg-slate-50 <TMPL_ELSE> text-slate-50 bg-slate-500 </TMPL_IF>" href="%link%"><code>%name%</code></a>
+        </li>
+    
+    </TMPL_LOOP>
+
+</ul>

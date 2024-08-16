@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+    <head>
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+
+        <title><TMPL_VAR NAME="title"></title>
+
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sonsie+One" rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="/style.css" />
+        <TMPL_VAR NAME="stack:styles">
+        <script src="https://kit.fontawesome.com/6d86bf51a5.js" crossorigin="anonymous"></script>
+        <script src="/modal.js" crossorigin="anonymous"></script>
+        <script src="/messages.js" crossorigin="anonymous"></script>
+
+    </head>
+
+    <body class="h-screen text-slate-500">
+
+        <nav class="flex justify-between p-4 h-20">
+
+            <div class="flex gap-8">
+
+                <ul class="flex gap-2 p-2">
+
+                    <li>
+                        <a class="hover:border-b-4 text-slate-500 hover:text-slate-900" href="/">Home</a>
+                    </li>
+    
+                    <TMPL_IF NAME="auth_user">
+    
+                        <li>
+                            <a class="hover:border-b-4 text-slate-500 hover:text-slate-900" href="/profile">Profile</a>
+                        </li>
+        
+                    </TMPL_IF>
+    
+                </ul>
+    
+                <TMPL_IF NAME="auth_user">
+                    
+                    <TMPL_VAR NAME="stack:services">
+
+                </TMPL_IF>
+
+            </div>
+
+            <ul class="flex gap-2 p-2">
+
+                <TMPL_UNLESS NAME="auth_user">
+                    <li>
+                        <a class="hover:border-b-4 text-slate-500 hover:text-slate-900" href="/sign-in">Sign-In</a>
+                    </li>
+
+                    <li>
+                        <a class="hover:border-b-4 text-slate-500 hover:text-slate-900" href="/sign-up">Sign-Up</a>
+                    </li>
+    
+                </TMPL_UNLESS>
+
+                <TMPL_IF NAME="auth_user">
+
+                    <li>
+                        <form action="/sign-out" method="post" class="inline">
+                            <button type="submit" class="hover:border-b-4 text-slate-500 hover:text-slate-900">Sign-Out</button>
+                        </form>
+                    </li>
+    
+                </TMPL_IF>
+
+            </ul>
+
+        </nav>
+
+        <hr>
+
+        <header>
+
+            <h1 class="px-64 py-4 text-xl text-slate-500">
+                <TMPL_VAR NAME="headline">
+            </h1>
+
+
+        </header>
+
+        <main class="px-64 py-4">
+
+            <TMPL_VAR NAME="content">
+
+        </main>
+
+        <footer>
+
+            <div class="absolute z-50 top-0 right-0 overflow-auto">
+
+                <div id="modal-preset" class="transition duration-500 ease-in-out opacity-0 mb-1 mr-4 p-2 bg-slate-50 text-slate-500 hover:bg-slate-500 hover:text-slate-50 hover:cursor-pointer w-64 rounded shadow-2xl border-r-4">
+
+                    <div class="flex justify-center">
+
+                        <div class="modal-body"></div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- [FLASH_MESSAGE_CONTAINER] -->
+
+        </footer>
+
+        <TMPL_VAR NAME="stack:scripts">
+
+    </body>
+
+</html>
