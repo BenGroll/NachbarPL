@@ -1,5 +1,5 @@
 {
     "name": "Echo",
-    "link": "/apps/echo",
+    "link": "/echo",
     "provider": "/src/ServiceProvider.pm"
 }

@@ -32,7 +32,7 @@ Http::Route::group({
     Http::Route::group({
 
         # The prefix of the http route.
-        prefix => '/apps/echo',
+        prefix => '/echo',
 
         # The prefix of the route name.
         as => 'apps.echo.',

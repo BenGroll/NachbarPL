@@ -375,6 +375,12 @@ sub setDatabaseHandler {
     $self->{dbh} = $dbh;
 }
 
+sub uploaddir {
+    my $self = shift;
+
+    return $self->basePath() . '/storage';
+}
+
 sub database {
     return shift->{dbh};
 }
