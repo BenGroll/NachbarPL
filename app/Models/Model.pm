@@ -108,11 +108,14 @@ sub cast {
 
 sub save {
     my $self = shift;
+    my $includeID = shift;
     my $attributes = shift;
 
     $attributes ||= $self->all();
 
-    delete $attributes->{id};
+    unless ($includeID) {
+        delete $attributes->{id};
+    }
     $attributes->{created_at} = DateTime->now()->datetime(' ');
     $attributes->{updated_at} = DateTime->now()->datetime(' ');
 
@@ -131,9 +134,13 @@ sub save {
         $mask,
     );
 
+    # die $sql;
+
     my ($dbh, $sth) = $self->runSqlStatement($sql, $values);
 
-    $self->set('id', $dbh->last_insert_id());
+    unless ($includeID) {
+        $self->set('id', $dbh->last_insert_id());
+    }
 
     unless ($self->id()) {
         die 'Failed to save model: [' . ref $self .  ']'

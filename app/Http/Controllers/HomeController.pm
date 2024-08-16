@@ -19,6 +19,7 @@ sub index {
     my $self = shift;
     my $request = shift;
 
+
     return &_::template('welcome', {
         name => user() ? user()->get('email') : 'Nachbar/dev',
     }, {

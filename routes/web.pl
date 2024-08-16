@@ -9,7 +9,7 @@ Http::Route::json(&_::app()->basePath() . '/storage/web.json');
 
 Http::Route::group({
     middlewares => [
-        'Http::Middlewares::Auth',
+        # 'Http::Middlewares::Auth',
     ],
 }, sub {
 
