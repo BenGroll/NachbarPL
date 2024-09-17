@@ -34,6 +34,12 @@ sub id {
     return shift->{attributes}->{id};
 }
 
+sub tableExists {
+    my $self = shift;
+    my $tablename = $self->table();
+    die $tablename;
+}
+
 sub fill {
     my $self = shift;
     my $attributes = shift || {};
@@ -183,6 +189,12 @@ sub update {
     $self->runSqlStatement($sql, $values);
 
     return $self;
+}
+
+sub key {
+    my $self = shift;
+
+    return $self->{attributes}->{$self->{route_key}};
 }
 
 sub prepare {

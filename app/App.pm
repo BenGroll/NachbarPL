@@ -499,4 +499,37 @@ sub getServiceConfig {
 
 }
 
+sub storageFilePath {
+    my $self = shift;
+    my $filename = shift;
+
+    my $targetpath = $self->basePath() . "/storage/$filename";
+    
+    return $targetpath;
+}
+
+sub uploadFile {
+    my $self = shift;
+    my $request = shift;
+    my $filename = shift;
+
+    my $uploadfh = $request->upload('file');
+    my $targetpath = $self->storageFilePath($filename);
+    
+    # Set right encoding
+    use utf8;
+    use open ':encoding(utf8)';
+    open OUTFH, '>', $targetpath;
+    
+    my $string = '';
+
+    while (<$uploadfh>) {
+        $string .= $_;
+    }
+
+    print OUTFH $string;
+
+    return $targetpath;
+
+}
 1;
