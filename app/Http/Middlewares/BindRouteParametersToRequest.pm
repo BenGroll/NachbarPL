@@ -16,6 +16,7 @@ sub handle {
     my $self = shift;
     my $request = shift;
     my $next = shift;
+    my $args = shift;
 
     my $route = $request->param('__route__');
 

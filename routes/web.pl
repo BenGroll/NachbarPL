@@ -19,7 +19,8 @@ Http::Route::group({
         prefix => '/admin',
         as => 'admin.', 
         middlewares => [
-            'Http::Middlewares::Admin',
+            "Http::Middlewares::Admin",
+            "Http::Middlewares::UserHasPermission('nachtderklaenge1worker')"
         ],
     }, sub {
         

@@ -1,4 +1,4 @@
-package Http::Middlewares::Admin;
+package Http::Middlewares::UserHasPermission;
 
 use strict;
 use warnings;
@@ -16,7 +16,7 @@ sub handle {
     my $self = shift;
     my $request = shift;
     my $next = shift;
-    my $args = shift;
+    my $params = shift;
 
     unless (1) {
         &_::abort('Unauthenticated.', 403);

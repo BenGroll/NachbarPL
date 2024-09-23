@@ -19,6 +19,7 @@ sub handle {
     my $self = shift;
     my $request = shift;
     my $next = shift;
+    my $args = shift;
 
     my $response = &$next($request);
 

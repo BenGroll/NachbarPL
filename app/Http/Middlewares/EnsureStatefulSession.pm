@@ -19,6 +19,7 @@ sub handle {
     my $self = shift;
     my $request = shift;
     my $next = shift;
+    my $args = shift;
 
     my $session = Models::Session::retrieve(
         $request->cookie($self->{cookie_name}),

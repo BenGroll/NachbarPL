@@ -16,6 +16,7 @@ sub handle {
     my $self = shift;
     my $request = shift;
     my $next = shift;
+    my $args = shift;
 
     unless (&_::app()->authUser()) {
         &_::abort('Unauthenticated.', 403);

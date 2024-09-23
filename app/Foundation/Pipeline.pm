@@ -63,16 +63,23 @@ sub next {
     my $self = shift;
 
     my $pipe = shift @{$self->{pipes}};
+    my $args;
+    if ($pipe =~ /\(/g) {
+        my @results = $pipe =~ /\((.*?)\)/;
+        $pipe =~ s/\((.*?)\)//g;
+        $args = shift @results;
+    } 
+    
     if ($pipe) {
         return sub {
             my $item = shift;
 
             my $next = $self->next();
             if (ref $pipe eq 'CODE') {
-                return &$pipe($item, $next);
+                return &$pipe($item, $next, $args);
             }
 
-            return &_::app()->make($pipe)->handle($item, $next);
+            return &_::app()->make($pipe)->handle($item, $next, $args);
         }
     }
     return $self->{destination};
