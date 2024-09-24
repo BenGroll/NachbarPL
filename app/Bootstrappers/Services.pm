@@ -12,6 +12,7 @@ sub new {
     my $self = {
         dir => '/services',
         filename => '/service.json',
+        permissionfilename => '/permissions.json'
     };
     bless $self, $class;
 
@@ -32,6 +33,7 @@ sub bootstrap {
 
     my %register;
     my @services;
+    my @total_permissions;
     
     while (my $item = readdir($dh)) {
 
@@ -49,7 +51,18 @@ sub bootstrap {
             next;
         }
 
+        my $permissionfile = $dir . $self->{permissionfilename};
+        # die $permissionfile;
+
+        if (-f $permissionfile) {
+            my $permissions = $app->readJson($permissionfile);
+            # use Data::Dumper;
+            # die Dumper($permissions);
+            push @total_permissions, @$permissions if ($permissions);
+        }
+
         my $config = $app->readJson($file);
+        
         my $name = $config->{name};
         my $file = $config->{provider};
 
@@ -81,6 +94,10 @@ sub bootstrap {
     closedir $dh;
 
     my $providers = $self->getProviders(\@services);
+
+    if (scalar @total_permissions > 0) {
+        $app->registerServicePermissions(\@total_permissions);
+    }
 
     $self->registerServiceManager($app, $providers);
 

@@ -1,8 +1,0 @@
-{
-    "permissions" : [
-        "nachtderklaenge1worker"
-    ],
-    "permitgrades" : {
-        "viewer" : 0
-    }
-}

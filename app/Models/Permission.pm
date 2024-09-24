@@ -1,4 +1,4 @@
-package Models::User;
+package Models::Permission;
 use base Models::Model;
 
 use strict;
@@ -102,22 +102,6 @@ sub hasPermission {
     $sth->execute($permissionName) or die $sth->errstr;
 
     return ($sth->fetchrow_hashref) ? 1 : 0;
-}
-
-sub givePermission {
-    my $self = shift;
-    my $assignedByUser = shift;
-    my $permissionName = shift;
-
-    my $dbh = &_::app()->database();
-
-    my $sql = qq 'INSERT INTO users_permissions_table 
-        (user_id, permission, assigned_by, assigned_at) VALUES 
-        (?, ?, ?, ?)';
-    
-    my $sth = $dbh->prepare($sql);
-    $sth->execute($self->id, $permissionName, $assignedByUser->id)
-        or die $sth->errstr;
 }
 
 1;

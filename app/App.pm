@@ -23,10 +23,18 @@ sub new {
         config => {},
         macros => {},
         stacks => {},
+        permissions => ()
     };
     bless $self, $class;
 
     return $self;
+}
+
+sub registerServicePermissions {
+    my $self = shift;
+    my $permissions = shift;
+
+    push (@ {$self->{permissions}}, @$permissions);
 }
 
 sub bootstrap {
@@ -37,6 +45,9 @@ sub bootstrap {
         my $instance = $self->make($bootstrapper);
         $instance->bootstrap($self);
     }
+
+    use Data::Dumper;
+    die Dumper($self->{permissions});
 }
 
 sub config {
