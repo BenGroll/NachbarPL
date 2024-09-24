@@ -20,7 +20,7 @@ sub handle {
     my $next = shift;
     my $params = shift;
 
-    unless (user()->hasPermission($params)) {
+    unless (user() && user()->hasPermission($params)) {
         &_::abort("You dont have permission $params.", 403);
     }
 

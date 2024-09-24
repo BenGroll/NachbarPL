@@ -52,7 +52,7 @@ sub register {
         email => $email,
         password => $hash,
         salt => $salt,
-        isadmin => 1,
+        isadmin => 0,
     })->save(1);
 
     &_::session()->update({

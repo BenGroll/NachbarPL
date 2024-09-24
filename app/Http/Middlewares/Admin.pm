@@ -3,6 +3,8 @@ package Http::Middlewares::Admin;
 use strict;
 use warnings;
 
+use Foundation::Appify;
+
 sub new {
     my $class = shift;
 
@@ -18,7 +20,7 @@ sub handle {
     my $next = shift;
     my $args = shift;
 
-    unless (1) {
+    unless (user()->isadmin) {
         &_::abort('Unauthenticated.', 403);
     }
 
