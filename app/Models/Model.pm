@@ -119,6 +119,7 @@ sub save {
 
     $attributes ||= $self->all();
 
+
     unless ($includeID) {
         delete $attributes->{id};
     }
@@ -140,14 +141,11 @@ sub save {
         $mask,
     );
 
-    # die $sql;
-
     my ($dbh, $sth) = $self->runSqlStatement($sql, $values);
 
-    unless ($includeID) {
-        $self->set('id', $dbh->last_insert_id());
-    }
-
+    
+    $self->set('id', $dbh->last_insert_id());
+    
     unless ($self->id()) {
         die 'Failed to save model: [' . ref $self .  ']'
     }

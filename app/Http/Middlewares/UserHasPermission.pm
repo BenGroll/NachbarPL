@@ -2,6 +2,8 @@ package Http::Middlewares::UserHasPermission;
 
 use strict;
 use warnings;
+use Foundation::Appify;
+
 
 sub new {
     my $class = shift;
@@ -18,8 +20,8 @@ sub handle {
     my $next = shift;
     my $params = shift;
 
-    unless (1) {
-        &_::abort('Unauthenticated.', 403);
+    unless (user()->hasPermission($params)) {
+        &_::abort("You dont have permission $params.", 403);
     }
 
     return &$next($request);

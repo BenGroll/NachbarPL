@@ -19,6 +19,7 @@ sub register {
     my $self = shift;
     my $request = shift;
 
+
     my $email = $request->param('email');
     my $password = $request->param('password');
     my $passwordConfirmation = $request->param('password_confirm');
@@ -51,7 +52,8 @@ sub register {
         email => $email,
         password => $hash,
         salt => $salt,
-    })->save();
+        isadmin => 1,
+    })->save(1);
 
     &_::session()->update({
         user_id => $user->id(),

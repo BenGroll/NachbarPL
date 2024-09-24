@@ -64,7 +64,7 @@ sub next {
 
     my $pipe = shift @{$self->{pipes}};
     my $args;
-    if ($pipe =~ /\(/g) {
+    if (ref $pipe ne 'CODE' && $pipe =~ /\(/g) {
         my @results = $pipe =~ /\((.*?)\)/;
         $pipe =~ s/\((.*?)\)//g;
         $args = shift @results;

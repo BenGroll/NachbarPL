@@ -18,6 +18,7 @@ sub new {
             email => undef,
             password => undef,
             salt => undef,
+            isadmin => 0,
             created_at => undef,
             updated_at => undef,
         }
@@ -45,6 +46,7 @@ sub find {
     $sth->execute($id) or die $sth->errstr;
 
     my $attributes = $sth->fetchrow_hashref();
+    # die $attributes;
     unless ($attributes) {
         return;
     }
@@ -74,6 +76,32 @@ sub retrieve {
     }
 
     return $model->fill($attributes);
+}
+
+sub isadmin {
+    my $self = shift;
+
+    return $self->{attributes}->{isadmin};
+}
+
+sub hasPermission {
+    my $self = shift;
+    my $permissionName = shift;
+
+    return 1 if ($self->isadmin);
+
+    my $dbh = &_::app()->database();
+
+    my $sql = sprintf(
+        'SELECT * FROM %s WHERE `%s` = ? LIMIT 1',
+        'users_permissions_table',
+        'permission'
+    );
+
+    my $sth = $dbh->prepare($sql);
+    $sth->execute($permissionName) or die $sth->errstr;
+
+    return ($sth->fetchrow_hashref) ? 1 : 0;
 }
 
 1;
