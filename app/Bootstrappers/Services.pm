@@ -52,19 +52,16 @@ sub bootstrap {
         }
 
         my $permissionfile = $dir . $self->{permissionfilename};
-        # die $permissionfile;
 
         if (-f $permissionfile) {
             my $permissions = $app->readJson($permissionfile);
-            # use Data::Dumper;
-            # die Dumper($permissions);
             push @total_permissions, @$permissions if ($permissions);
         }
 
         my $config = $app->readJson($file);
         
         my $name = $config->{name};
-        my $file = $config->{provider};
+        $file = $config->{provider};
 
         unless ($name) {
             die "Unable to find name of service.";
@@ -95,9 +92,7 @@ sub bootstrap {
 
     my $providers = $self->getProviders(\@services);
 
-    if (scalar @total_permissions > 0) {
-        $app->registerServicePermissions(\@total_permissions);
-    }
+    $app->registerServicePermissions(\@total_permissions);
 
     $self->registerServiceManager($app, $providers);
 

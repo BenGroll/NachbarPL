@@ -13,30 +13,6 @@ Http::Route::group({
     ],
 }, sub {
 
-    # logged in routes
-
-    Http::Route::group({
-        prefix => '/admin',
-        as => 'admin.', 
-        middlewares => [
-            "Http::Middlewares::Admin",
-            "Http::Middlewares::UserHasPermission('nachtderklaenge1worker')"
-        ],
-    }, sub {
-        
-        # logged in as admin routes
-
-        Http::Route::get('/', sub {
-            my $request = shift;
-
-            return &_::template('admin.dashboard', {
-                'name' => 'Test',
-                'company' => 'Testcompany',
-            })->output();
-        })
-
-    });
-
     Http::Route::get(
         '/profile',
         'Http::Controllers::HomeController@profile',

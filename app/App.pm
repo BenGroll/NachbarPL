@@ -9,6 +9,7 @@ use HTML::Template;
 use JSON;
 use Foundation::Appify;
 use Foundation::Traits::HasMacros;
+use Text::CSV;
 
 sub new {
     my $class = shift;
@@ -45,9 +46,6 @@ sub bootstrap {
         my $instance = $self->make($bootstrapper);
         $instance->bootstrap($self);
     }
-
-    use Data::Dumper;
-    die Dumper($self->{permissions});
 }
 
 sub config {
@@ -206,6 +204,57 @@ sub readJson {
 
     return decode_json($self->read($path));
 }
+
+sub readCSV {
+    my $self = shift;
+    my $path = shift;
+
+    unless (-f $path) {
+        return;
+    }
+
+    my $csv = Text::CSV->new ({
+        binary => 1,
+        sep_char => ';',
+        eol => $/,                # to make $csv->print use newlines
+        always_quote => 1,        # to keep your numbers quoted
+    });
+    my @rows;
+    open my $fh, "<:encoding(utf8)", $path or die "test.csv: $!";
+    while (my $row = $csv->getline($fh)) {
+        foreach my $entry (@$row) {
+            $entry =~ s/[\r\n]+//g;
+        }
+        push (@rows, $row);
+    }
+    return $self->rowsAsHashes(shift @rows, \@rows);
+}
+
+sub rowsAsHashes {
+    my $self = shift;
+    my $headers = shift;
+    my $rows = shift;
+
+    $self->log($headers);
+    $self->log($rows);
+
+    my $headerColumnCount = scalar @{$headers};
+    my $firstRow = $rows->[0];
+
+    die "Headers dont match Columns" unless ($headerColumnCount == scalar @$firstRow);
+
+    my @elements;
+    foreach my $row (@$rows) {
+        my $populated = {};
+        for (my $i = 0; $i < $headerColumnCount; $i++) {
+            $populated->{$headers->[$i]} = $row->[$i];
+        }
+        push (@elements, $populated);
+    }
+
+    return \@elements;
+}
+
 
 sub template {
     my $self = shift;
@@ -430,7 +479,7 @@ sub hash {
     my $content = shift;
     my $salt = shift;
 
-    my $salt = $salt || $self->salt();
+    $salt = $salt || $self->salt();
     
     return Digest::SHA->new(512)->add($content, $salt)->b64digest(), $salt;
 }

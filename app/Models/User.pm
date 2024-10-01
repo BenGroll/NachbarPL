@@ -100,7 +100,7 @@ sub hasPermission {
 
     my $sth = $dbh->prepare($sql);
     $sth->execute($permissionName) or die $sth->errstr;
-
+    
     return ($sth->fetchrow_hashref) ? 1 : 0;
 }
 
