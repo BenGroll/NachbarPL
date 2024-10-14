@@ -25,7 +25,7 @@ sub new {
         config => {},
         macros => {},
         stacks => {},
-        permissions => ()
+        permissions => {}
     };
     bless $self, $class;
 
@@ -36,7 +36,7 @@ sub registerServicePermissions {
     my $self = shift;
     my $permissions = shift;
 
-    push (@ {$self->{permissions}}, @$permissions);
+    $self->{permissions} = $permissions;
 }
 
 sub bootstrap {

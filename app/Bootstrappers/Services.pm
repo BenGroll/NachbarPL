@@ -12,7 +12,7 @@ sub new {
     my $self = {
         dir => '/services',
         filename => '/service.json',
-        permissionfilename => '/permissions.json'
+        permfile => '/permissions.pl'
     };
     bless $self, $class;
 
@@ -33,8 +33,8 @@ sub bootstrap {
 
     my %register;
     my @services;
-    my @total_permissions;
     
+    my $permissions = {};
     while (my $item = readdir($dh)) {
 
         if ($item eq '.' || $item eq '..') {
@@ -51,17 +51,18 @@ sub bootstrap {
             next;
         }
 
-        my $permissionfile = $dir . $self->{permissionfilename};
-
-        if (-f $permissionfile) {
-            my $permissions = $app->readJson($permissionfile);
-            push @total_permissions, @$permissions if ($permissions);
-        }
+        my $permissionfile = $dir . $self->{permfile};
+        
 
         my $config = $app->readJson($file);
         
         my $name = $config->{name};
         $file = $config->{provider};
+        if (-f $permissionfile) {
+            my $this_file_permissions = require $permissionfile;
+            $permissions->{$name} = $this_file_permissions;
+        }
+
 
         unless ($name) {
             die "Unable to find name of service.";
@@ -92,7 +93,7 @@ sub bootstrap {
 
     my $providers = $self->getProviders(\@services);
 
-    $app->registerServicePermissions(\@total_permissions);
+    $app->registerServicePermissions($permissions);
 
     $self->registerServiceManager($app, $providers);
 
