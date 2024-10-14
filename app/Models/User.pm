@@ -19,6 +19,8 @@ sub new {
             password => undef,
             salt => undef,
             isadmin => 0,
+            name => undef,
+            surname => undef,
             created_at => undef,
             updated_at => undef,
         }
@@ -28,6 +30,12 @@ sub new {
     $self->fill($attributes);
 
     return $self;
+}
+
+sub name {
+    my $self = shift;
+
+    return $self->{attributes}->{name} . " " . $self->{attributes}->{surname};
 }
 
 sub find {

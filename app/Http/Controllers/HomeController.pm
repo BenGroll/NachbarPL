@@ -20,7 +20,7 @@ sub index {
     my $request = shift;
 
     return &_::template('welcome', {
-        name => user() ? user()->get('email') : 'Nachbar/dev',
+        greeting => user() ? user()->get('name') : ', please log in or create an account.',
     }, {
         title => 'Welcome',
     })->output();
@@ -34,6 +34,8 @@ sub register {
         'email_label' => 'Email',
         'password_label' => 'Password',
         'password_confirm_label' => 'Password Confirmation',
+        'name_label' => 'Name',
+        'surname_label' => 'Surname',
         'submit' => 'Register',
     }, {
         headline => 'Sign-Up'
@@ -49,7 +51,7 @@ sub login {
         'password_label' => 'Password',
         'submit' => 'Login',
     }, {
-        headline => 'Sign-In',
+        headline => 'Log-In',
     })->output();
 }
 
@@ -57,10 +59,12 @@ sub profile {
     my $self = shift;
     my $request = shift;
 
+    my $user = Models::User::find(&_::authUser());
+
     return &_::template('profile', {
-        first_name => 'Test',
-        last_name => 'Tester',
-        email => Models::User::find(&_::authUser())->get('email'),
+        name => $user->get('name'),
+        surname => $user->get('surname'),
+        email => $user->get('email'),
     }, {
         headline => 'Profile',
     })->output();

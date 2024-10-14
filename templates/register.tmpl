@@ -12,6 +12,25 @@
 
                 <input class="border p-1" type="email" id="email" name="email" required>
 
+                <div class="flex gap-2"></div>
+
+                    <div class="flex flex-col">
+                        <label for="name">
+                            <TMPL_VAR NAME="name_label">
+                        </label>
+
+                        <input class="border p-1" type="name" id="name" name="name" required>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="surname">
+                            <TMPL_VAR NAME="surname_label">
+                        </label>
+
+                        <input class="border p-1" type="surname" id="surname" name="surname" required>
+                    </div>
+                </div>
+
                 <div class="flex gap-2">
 
                     <div class="flex flex-col">
@@ -32,12 +51,12 @@
                 </div>
 
             </div>
+            <button class="border p-2 w-full bg-slate-50 hover:bg-slate-100">
+                <TMPL_VAR NAME="submit">
+            </button>
 
         </div>
 
-        <button class="border p-2 w-full bg-slate-50 hover:bg-slate-100">
-            <TMPL_VAR NAME="submit">
-        </button>
 
     </form>
 

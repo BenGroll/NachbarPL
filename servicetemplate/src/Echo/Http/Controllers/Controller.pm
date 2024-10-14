@@ -40,7 +40,7 @@ sub dashboard {
     });
 
     return $template->output();
-}
+};
 
 sub showMessage {
     my $self = shift;

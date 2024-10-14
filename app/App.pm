@@ -10,6 +10,7 @@ use JSON;
 use Foundation::Appify;
 use Foundation::Traits::HasMacros;
 use Text::CSV;
+use DateTime;
 
 sub new {
     my $class = shift;
@@ -234,9 +235,6 @@ sub rowsAsHashes {
     my $self = shift;
     my $headers = shift;
     my $rows = shift;
-
-    $self->log($headers);
-    $self->log($rows);
 
     my $headerColumnCount = scalar @{$headers};
     my $firstRow = $rows->[0];
@@ -504,8 +502,10 @@ sub log {
         my ($package, $source, $line) = caller(1);
 
         open (my $fh, '>>', $file) or die "Unable to open file [$file]: $!";
-
-        print $fh time() . " INFO $message at $source:$line\n";
+        my $dt = DateTime->now(
+            time_zone => "+0200"
+        );
+        print $fh $dt . " INFO $message at $source:$line\n";
 
         close($fh);
 

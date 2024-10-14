@@ -19,10 +19,11 @@ sub register {
     my $self = shift;
     my $request = shift;
 
-
     my $email = $request->param('email');
     my $password = $request->param('password');
     my $passwordConfirmation = $request->param('password_confirm');
+    my $name = $request->param('name');
+    my $surname = $request->param('surname');
 
     unless ($email) {
         &_::abort('No email given.');
@@ -33,6 +34,10 @@ sub register {
         $password,
         $passwordConfirmation,
     ));
+
+    unless($name && $surname) {
+        &_::abort('Name and Surname are required.');
+    } 
 
     unless ($password) {
         &_::abort('No password given.');
@@ -52,6 +57,8 @@ sub register {
         email => $email,
         password => $hash,
         salt => $salt,
+        name => $name,
+        surname => $surname,
         isadmin => 0,
     })->save(1);
 
@@ -63,6 +70,8 @@ sub register {
         'Foundation::Events::Users::Registered',
         $user,
     ));
+
+    app->log("User ".$user->id(). " created!.");
 
     return response()->redirect('/', [
         'Registered successfully',
@@ -96,6 +105,8 @@ sub login {
         'Foundation::Events::Users::Authenticated',
         $user,
     ));
+
+    app->log("User ".$user->id(). " logged in!.");
 
     return response()->redirect('/', [
         'Signed in successfully',
