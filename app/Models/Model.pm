@@ -89,9 +89,17 @@ sub set {
 
 sub get {
     my $self = shift;
-    my $attribute = shift;
+    use Data::Dumper;
+    my @attributes = @_;
 
-    return $self->{attributes}->{$attribute};
+    if (scalar @attributes == 1) {
+        return $self->{attributes}->{shift @attributes};
+    }
+    my $data = {};
+    foreach my $attr (@attributes) {
+        $data->{$attr} = $self->{attributes}->{$attr};
+    }
+    return (keys %$data) ? $data : undef;  
 }
 
 sub cast {

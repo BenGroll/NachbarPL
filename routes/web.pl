@@ -25,33 +25,4 @@ Http::Route::group({
 
 });
 
-# Http::Route::get('/foo', sub {
-
-#     my $request = shift;
-
-#     return &_::template('register', {
-#         'email_label' => 'Email',
-#         'password_label' => 'Password',
-#         'submit' => 'Registrieren FOO',
-#     })->output();
-
-# });
-
-# Http::Route::group({'middlewares' => [], 'as' => 'nice.'}, sub {
-
-#     Http::Route::get('/bar', 'Http::Controllers::HomeController@bar')
-#         # ->middleware('testtest')
-#         # ->middleware('abc')
-#         ->name('bar');
-
-#     Http::Route::group({'prefix' => '/test', 'as' => 'hellooo.'}, sub {
-
-#         Http::Route::get('/foo-bar', 'Http::Controllers::HomeController@fooBar')
-#             # ->middleware('testtest')
-#             ->name('foo.bar');
-
-#     });
-
-# });
-
 1;

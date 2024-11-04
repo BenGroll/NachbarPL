@@ -38,6 +38,45 @@ sub name {
     return $self->{attributes}->{name} . " " . $self->{attributes}->{surname};
 }
 
+sub allPermissions {
+    my $self = shift;
+    
+    my $table = 'users_permissions_table';
+    my $sql = "SELECT permission FROM $table WHERE user_id = ?;";
+    
+    my ($dbh, $sth) = $self->runSqlStatement($sql, \($self->id));
+
+    my @permissions;
+    while (my $row = $sth->fetchrow_array) {
+        push (@permissions, shift @$row);
+    }
+
+    return \@permissions;
+}
+
+# Table Data
+sub headers {
+    return ['id', 'name', 'surname', 'email'];
+}
+
+sub actions {
+    return ['edit', 'test'];
+}
+
+sub columns {
+    return ['permissions'];
+}
+
+sub adminTableData {
+    my $self = shift;
+
+    my $headers = \['id', 'name', 'surname', 'email']; 
+    my $actions = \['edit'];
+    my $columns = \['permissions'];
+
+    return ($headers, $actions, $columns);
+}
+
 sub find {
     my $id = shift;
 
@@ -101,13 +140,14 @@ sub hasPermission {
     my $dbh = &_::app()->database();
 
     my $sql = sprintf(
-        'SELECT * FROM %s WHERE `%s` = ? LIMIT 1',
+        'SELECT * FROM %s WHERE `%s` = ? AND `%s` = ? LIMIT 1',
         'users_permissions_table',
-        'permission'
+        'permission',
+        'user_id',
     );
 
     my $sth = $dbh->prepare($sql);
-    $sth->execute($permissionName) or die $sth->errstr;
+    $sth->execute($permissionName, $self->{attributes}->{id}) or die $sth->errstr;
     
     return ($sth->fetchrow_hashref) ? 1 : 0;
 }

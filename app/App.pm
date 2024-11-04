@@ -37,6 +37,17 @@ sub registerServicePermissions {
     my $permissions = shift;
 
     $self->{permissions} = $permissions;
+    # use Data::Dumper;
+    # die Dumper($self->{permissions});
+}
+
+sub getPermissionsForService {
+    my $self = shift;
+    my $serviceID = shift;
+
+    my $perms = $self->{permissions}->{$serviceID}; 
+    
+    return $perms;
 }
 
 sub bootstrap {
